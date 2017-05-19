@@ -10,6 +10,26 @@ slack_client = SlackClient(SLACK_BOT_TOKEN)
 AT_BOT = '<@' + BOT_ID + '>'
 EXAMPLE_COMMAND = 'dinner'
 
+def main():
+    READ_DELAY = 1 # 1 second delay between reading from firehose
+    if slack_client.rtm_connect():
+        print('dinnerbot connected and running!')
+        while True:
+            for i in slack_client.rtm_read():
+                if i:
+                    try:
+                        if i['type'] == 'message' and i['channel'].startswith('D'):
+                            slack_client.api_call('chat.postMessage', channel=i['channel'], text='It somehow works!', as_user=True)
+                    except:
+                        pass
+            '''command, channel = parse_slack_output(slack_client.rtm_read())
+            if command and channel:
+
+                handle_command(command, channel)
+            time.sleep(READ_DELAY)'''
+    else:
+        print('Connection failed. Invalid Slack token or bot ID?')
+
 def handle_command(command, channel):
     '''
         Receives commands directed at the bot and determines if they
@@ -42,14 +62,6 @@ def parse_slack_output(slack_rtm_output):
                 return output['text'].split(AT_BOT)[1].strip().lower(), output['channel']
     return None, None
 
+
 if __name__ == '__main__':
-    READ_DELAY = 1 # 1 second delay between reading from firehose
-    if slack_client.rtm_connect():
-        print('dinnerbot connected and running!')
-        while True:
-            command, channel = parse_slack_output(slack_client.rtm_read())
-            if command and channel:
-                handle_command(command, channel)
-            time.sleep(READ_DELAY)
-    else:
-        print('Connection failed. Invalid Slack token or bot ID?')
+    main()
