@@ -11,3 +11,4 @@ To-do
 - [ ] Save user suggestions using firebase
 - [ ] Incorporate user suggestions into search results
 - [ ] Conversational dialog handler
+- [ ] Logging messages
