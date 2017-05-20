@@ -71,6 +71,7 @@ def parse_slack_output(slack_rtm_output):
             # handle DM
             if (output and
                 output['type'] == 'message' and
+                'text' in output and
                 output['channel'].startswith('D') and
                 AT_BOT not in output['text'] and
                 output['user'] != BOT_ID):
@@ -78,6 +79,7 @@ def parse_slack_output(slack_rtm_output):
             # handle @ message
             if (output and
                 output['type'] == 'message' and
+                'text' in output and
                 AT_BOT in output['text'] and
                 output['user'] != BOT_ID):
                 return output['text'].split(AT_BOT)[1].strip().lower(), output['channel']
