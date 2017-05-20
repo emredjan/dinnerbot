@@ -9,7 +9,7 @@ load_dotenv(dotenv_path)
 # read secrets from environment variables
 SLACK_BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 BOT_ID = os.environ.get('BOT_ID')
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+GOOGLE_KEY = os.environ.get('GOOGLE_KEY')
 
 # other constants
 BOT_NAME = 'dinnerbot'
