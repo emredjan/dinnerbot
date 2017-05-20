@@ -51,7 +51,8 @@ def handle_command(command, channel):
 
 
 def get_google_places(search_text):
-    search_text = search_text.replace(' ', '+')
+
+    search_text = '+'.join(search_text.split()) # get rid of spaces and join words with '+'
     api_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + search_text + '&key=' + GOOGLE_KEY
 
     api_response = requests.get(api_url)
