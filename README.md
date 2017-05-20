@@ -7,6 +7,7 @@ Based on the tutorial at [Full Stack Python](https://www.fullstackpython.com/blo
 To-do
 - [x] Handle DMs and @ messages
 - [x] Place search with google places API
+- [ ] Port to python 3
 - [ ] Location search with google maps API
 - [ ] Save user suggestions using firebase
 - [ ] Incorporate user suggestions into search results
@@ -17,7 +18,7 @@ Want to run locally?
 
 - Create a python environment (conda or virtualenv) with slackclient, python-dotenv and requests installed (you can use the `environment.yml` in the project directory for conda)
 - Create a `.env` file in the project folder with the structure:
-    ```bash    
+    ```bash
     SLACK_BOT_TOKEN=<YOUR SLACK BOT TOKEN>
     BOT_ID=<YOUR SLACK BOT ID>
     GOOGLE_KEY=<YOUR GOOGLE PLACES API KEY>

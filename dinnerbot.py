@@ -41,7 +41,7 @@ def handle_command(command, channel):
     if command and command.startswith(CMD_GOOGLE_PLACE):
         search_text = command[len(CMD_GOOGLE_PLACE):]
         response = get_google_places(search_text)
-        
+
         message = ''
         for i in response:
             message += i + '\n'
@@ -57,7 +57,10 @@ def get_google_places(search_text):
 
     api_response = requests.get(api_url)
     api_output = api_response.json()
-    return [i['name'] + ': ' + str(i['rating']) for i in api_output['results']]
+    try:
+        return [i['name'] + ': ' + str(i['rating']) for i in api_output['results']]
+    except KeyError:
+        return [i['name'] for i in api_output['results']]
 
 
 def parse_slack_output(slack_rtm_output):
