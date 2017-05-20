@@ -8,7 +8,7 @@ from settings import SLACK_BOT_TOKEN, BOT_ID, BOT_NAME, GOOGLE_KEY
 
 # initialize slack client
 sc = SlackClient(SLACK_BOT_TOKEN)
-sys.stdout = open('session_log.txt', 'a')
+sys.stdout = open('session.log', 'a')
 
 # constants
 AT_BOT = '<@' + BOT_ID + '>'
