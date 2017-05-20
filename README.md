@@ -17,12 +17,12 @@ Want to run locally?
 
 - Create a python environment (conda or virtualenv) with slackclient, python-dotenv and requests installed (you can use the `environment.yml` in the project directory for conda)
 - Create a `.env` file in the project folder with the structure:
-    ```shell    
+    ```bash    
     SLACK_BOT_TOKEN=<YOUR SLACK BOT TOKEN>
     BOT_ID=<YOUR SLACK BOT ID>
     GOOGLE_KEY=<YOUR GOOGLE PLACES API KEY>
     ```
 - Run with
-    ```shell
+    ```bash
     $ python dinnerbot.py
     ```
