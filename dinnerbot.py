@@ -1,12 +1,14 @@
 import os
 import sys
 import time
+from datetime import datetime
 import requests
 from slackclient import SlackClient
 from settings import SLACK_BOT_TOKEN, BOT_ID, BOT_NAME, GOOGLE_KEY
 
 # initialize slack client
 sc = SlackClient(SLACK_BOT_TOKEN)
+sys.stdout = open('session_log.txt', 'a')
 
 # constants
 AT_BOT = '<@' + BOT_ID + '>'
@@ -17,7 +19,8 @@ CMD_GOOGLE_PLACE = 'gp '
 def main():
     READ_DELAY = 1 # 1 second delay between reading from firehose
     if sc.rtm_connect():
-        print(BOT_NAME + ' connected and running!')
+        print(str(datetime.now()))
+        print(BOT_NAME, 'connected and running!')
         while True:
             try:
                 command, channel = parse_slack_output(sc.rtm_read())
@@ -49,14 +52,19 @@ def handle_command(command, channel):
     sc.api_call('chat.postMessage', channel=channel, text=message, as_user=True)
     print(command, channel)
 
-
+# TODO: Maybe refactor these into a class?
 def get_google_places(search_text):
-
+    '''
+        Recieves a search query as argument to pass onto 
+        Google Places API text search.
+        Returns the results as a list.
+    '''
     search_text = '+'.join(search_text.split()) # get rid of spaces and join words with '+'
     api_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + search_text + '&key=' + GOOGLE_KEY
 
     api_response = requests.get(api_url)
     api_output = api_response.json()
+    # TODO: Correct the exception handling
     try:
         return [i['name'] + ': ' + str(i['rating']) for i in api_output['results']]
     except KeyError:
@@ -66,12 +74,13 @@ def get_google_places(search_text):
 def parse_slack_output(slack_rtm_output):
     '''
         The Slack Real Time Messaging API is an events firehose.
-        this parsing function returns None unless a message is
-        directed at the Bot, based on its ID.
+        This parsing function returns None unless a message is
+        directed at the Bot (as a DM or @ message), based on its ID.
     '''
     output_list = slack_rtm_output
     if output_list and len(output_list) > 0:
         for output in output_list:
+            # TODO: Streamline the conditionals
             # handle DM
             if (output and
                 output['type'] == 'message' and
