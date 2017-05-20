@@ -37,8 +37,7 @@ def handle_command(command, channel):
         returns back what it needs for clarification.
     '''
     response = ''
-    message = 'Sorry, the only command I understand: *gp* _your search query_\n\
-               Which fetches search results from google places with ratings'
+    message = 'Sorry, the only command I understand: *gp* _your search query_\nWhich fetches search results from google places with ratings'
     if command and command.startswith(CMD_GOOGLE_PLACE):
         search_text = command[len(CMD_GOOGLE_PLACE):]
         response = get_google_places(search_text)
