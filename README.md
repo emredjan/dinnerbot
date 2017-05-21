@@ -13,7 +13,8 @@ To-do
 - [ ] Incorporate user suggestions into search results
 - [ ] Conversational dialog handler
 - [x] Basic logging
-- [ ] Detailed logging
+- [x] Detailed logging
+- [ ] Structured logging
 
 Want to run locally?
 

@@ -19,21 +19,20 @@ CMD_GOOGLE_PLACE = 'gp '
 def main():
     READ_DELAY = 1 # 1 second delay between reading from firehose
     if sc.rtm_connect():
-        print(str(datetime.now()))
-        print(BOT_NAME, 'connected and running!')
+        print(str(datetime.now()) + ':', BOT_NAME, 'connected and running!')
         while True:
             try:
-                command, channel = parse_slack_output(sc.rtm_read())
+                command, channel, user = parse_slack_output(sc.rtm_read())
                 if command and channel:
-                    handle_command(command, channel)
+                    handle_command(command, channel, user)
                 time.sleep(READ_DELAY)
             except KeyboardInterrupt:
-                print('\nClosing ' + BOT_NAME + '...')
+                print(str(datetime.now()) + ':', 'Closing', BOT_NAME + '...')
                 sys.exit()
     else:
         print('Connection failed. Invalid Slack token or bot ID?')
 
-def handle_command(command, channel):
+def handle_command(command, channel, user):
     '''
         Receives commands directed at the bot and determines if they
         are valid commands. If so, then acts on the commands. If not,
@@ -50,7 +49,7 @@ def handle_command(command, channel):
             message += i + '\n'
 
     sc.api_call('chat.postMessage', channel=channel, text=message, as_user=True)
-    print(command, channel)
+    print(str(datetime.now()) + ':', command, channel, user)
 
 # TODO: Maybe refactor these into a class?
 def get_google_places(search_text):
@@ -88,15 +87,15 @@ def parse_slack_output(slack_rtm_output):
                 output['channel'].startswith('D') and
                 AT_BOT not in output['text'] and
                 output['user'] != BOT_ID):
-                return output['text'], output['channel']
+                return output['text'], output['channel'], output['user']
             # handle @ message
             if (output and
                 output['type'] == 'message' and
                 'text' in output and
                 AT_BOT in output['text'] and
                 output['user'] != BOT_ID):
-                return output['text'].split(AT_BOT)[1].strip().lower(), output['channel']
-    return None, None
+                return output['text'].split(AT_BOT)[1].strip().lower(), output['channel'], output['user']
+    return None, None, None
 
 if __name__ == '__main__':
     main()
