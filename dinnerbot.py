@@ -54,11 +54,11 @@ def handle_command(command, channel, user):
 # TODO: Maybe refactor these into a class?
 def get_google_places(search_text):
     '''
-        Recieves a search query as argument to pass onto 
+        Recieves a search query as argument to pass onto
         Google Places API text search.
         Returns the results as a list.
     '''
-    search_text = '+'.join(search_text.split()) # get rid of spaces and join words with '+'
+    search_text = '+'.join(search_text.split()).lower() # get rid of spaces and join words with '+'
     api_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + search_text + '&key=' + GOOGLE_KEY
 
     api_response = requests.get(api_url)
