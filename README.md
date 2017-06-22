@@ -27,5 +27,5 @@ Want to run locally?
     ```
 - Run with
     ```Shell
-    python dinnerbot.py
+    $ python dinnerbot.py
     ```
