@@ -8,6 +8,7 @@ To-do
 - [x] Handle DMs and @ messages
 - [x] Place search with google places API
 - [x] Port to python 3
+- [ ] Error checking for websocket connection errors (`WebSocketConnectionClosedException`)
 - [ ] Location search with google maps API
 - [ ] Save user suggestions using firebase
 - [ ] Incorporate user suggestions into search results
